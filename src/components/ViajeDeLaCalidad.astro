@@ -1,0 +1,497 @@
+---
+// ViajeDeLaCalidad.astro
+// Scrollytelling "pineado" con GSAP + ScrollTrigger: la sección queda fija
+// en pantalla mientras el usuario scrollea, y cada etapa se revela una a la
+// vez (nunca las 8 juntas). Bajar = avanza, subir = retrocede — la
+// animación es 100% reversible porque está atada al progreso real del
+// scroll (scrub), no a un trigger de una sola vez.
+//
+// Efectos por etapa:
+//   - Fondo FIJO: no hay más color por etapa. Solo una textura de granos
+//     de cacao (semillas) en opacidad baja, constante durante todo el
+//     scroll — no hace crossfade porque ya no cambia entre etapas.
+//   - Layout en ZIGZAG: en etapas pares la foto va a la izquierda y el
+//     texto a la derecha; en etapas impares se invierte. Como cada panel
+//     ya trae su propio orden fijo por CSS, el intercambio de lados
+//     ocurre solo al pasar de una etapa a la siguiente (crossfade de
+//     opacidad), sin necesidad de animar ninguna posición aparte.
+//   - La fotografía hace zoom + fade al entrar/salir.
+//   - El texto hace fade + slide vertical al entrar/salir.
+//   - Indicador de progreso (puntos) + contador "0X / 08".
+//
+// IMPORTANTE: coloca las 8 fotografías reales en /public/images/viaje/
+// con los nombres de archivo indicados en el array `stages` (campo `image`).
+// Si un archivo aún no existe, se muestra un rótulo de marcador de posición
+// para que sepas exactamente qué falta subir.
+//
+// Uso:
+//   import ViajeDeLaCalidad from '../components/ViajeDeLaCalidad.astro';
+//   <ViajeDeLaCalidad />
+
+interface Stage {
+  number: string;
+  title: string;
+  text: string;
+  badge: string;
+  image: string;
+  alt: string;
+}
+
+const stages: Stage[] = [
+  {
+    number: "01",
+    title: "Origen y Selección de Semilla",
+    text: "Evaluamos y seleccionamos variedades nativas de cacao de los Andes y la Amazonía, priorizando calidad genética y aptitud para el cultivo orgánico.",
+    badge: "Ficha de Selección de Semilla",
+    image: "/images/viaje/01-seleccion-semilla.jpg",
+    alt: "Agricultor examinando semillas de cacao seleccionadas",
+  },
+  {
+    number: "02",
+    title: "Siembra",
+    text: "La semilla seleccionada se siembra en microclimas específicos, trabajando mano a mano con agricultores capacitados en prácticas orgánicas.",
+    badge: "Registro de Productor (georreferenciado)",
+    image: "/images/viaje/02-siembra.jpg",
+    alt: "Agricultor sembrando cacao en almácigo",
+  },
+  {
+    number: "03",
+    title: "Germinación y Primeros Brotes",
+    text: "Monitoreamos las condiciones climáticas —sol, lluvia y temperatura— que acompañan la germinación, hasta la aparición de los primeros brotes.",
+    badge: "Bitácora de Monitoreo Climático",
+    image: "/images/viaje/03-germinacion.jpg",
+    alt: "Brote de cacao emergiendo de la tierra",
+  },
+  {
+    number: "04",
+    title: "Crecimiento y Desarrollo",
+    text: "Durante el desarrollo de la planta aplicamos cuidados agronómicos —riego, control de plagas y nutrición del suelo— para un crecimiento saludable.",
+    badge: "Bitácora de Manejo Agronómico",
+    image: "/images/viaje/04-crecimiento.jpg",
+    alt: "Planta joven de cacao en desarrollo",
+  },
+  {
+    number: "05",
+    title: "Maduración",
+    text: "Verificamos que la mazorca haya alcanzado el punto óptimo de maduración —color y firmeza— antes de autorizar la cosecha.",
+    badge: "Ficha de Punto de Cosecha",
+    image: "/images/viaje/05-maduracion.jpg",
+    alt: "Mazorcas de cacao maduras colgando del árbol",
+  },
+  {
+    number: "06",
+    title: "Cosecha y Acopio",
+    text: "La cosecha se realiza manualmente en el punto óptimo de maduración. Cada lote se etiqueta de inmediato en campo con un código único.",
+    badge: "Código de Lote en Campo",
+    image: "/images/viaje/06-cosecha-acopio.jpg",
+    alt: "Trabajador cosechando mazorcas de cacao",
+  },
+  {
+    number: "07",
+    title: "Procesamiento y Calidad",
+    text: "En planta certificada, el grano pasa por fermentación, secado y estrictos análisis físico-químicos y microbiológicos antes de ser liberado.",
+    badge: "Análisis HACCP",
+    image: "/images/viaje/07-procesamiento-calidad.jpg",
+    alt: "Técnico de laboratorio analizando granos de cacao",
+  },
+  {
+    number: "08",
+    title: "Empaque y Exportación Segura",
+    text: "El producto final se embala bajo estándares internacionales y se consolida para su exportación, con documentación completa de origen y calidad.",
+    badge: "Certificado de Exportación",
+    image: "/images/viaje/08-empaque-exportacion.jpg",
+    alt: "Sacos de cacao embalados listos para exportación",
+  },
+];
+---
+
+<section class="viaje" id="viaje-de-la-calidad" aria-label="El Viaje de la Calidad — trazabilidad del cacao">
+  <header class="viaje__header">
+    <h2 class="viaje__title">El Viaje de la <span>Calidad</span></h2>
+    <p class="viaje__subtitle">
+      Un recorrido riguroso diseñado para preservar la pureza de origen en cada eslabón de la cadena.
+    </p>
+  </header>
+
+  <div class="viaje__pin" data-pin>
+    <div class="viaje__seed-texture" aria-hidden="true"></div>
+
+    <div class="viaje__progress" aria-hidden="true">
+      {stages.map((_, i) => (
+        <span class="viaje__dot" data-dot={i}></span>
+      ))}
+    </div>
+
+    {stages.map((stage, i) => (
+      <article class="viaje__panel" data-panel={i}>
+        <div class="viaje__media" data-media>
+          <img
+            src={stage.image}
+            alt={stage.alt}
+            loading={i === 0 ? "eager" : "lazy"}
+            onerror="this.style.opacity='0'"
+          />
+          <span class="viaje__placeholder-label">Coloca aquí: {stage.image.split("/").pop()}</span>
+        </div>
+
+        <div class="viaje__text" data-text>
+          <p class="viaje__number">{stage.number} <span>/ 08</span></p>
+          <h3 class="viaje__step-title">{stage.title}</h3>
+          <p class="viaje__step-text">{stage.text}</p>
+          <span class="viaje__badge">{stage.badge}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .viaje__step-title{
+    color: rgb(26, 114, 66);
+  }
+  .viaje {
+    --ink: #1c1c1a;
+    --paper: #fafaf7;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  .viaje__header {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: clamp(3rem, 10vw, 5rem) 1.25rem clamp(2rem, 8vw, 3rem);
+    text-align: center;
+  }
+  .viaje__title {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    margin: 0 0 0.75rem;
+  }
+  .viaje__title span { color: #1e5631; }
+  .viaje__subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #55554f;
+    margin: 0 0 1.5rem;
+  }
+  @keyframes viaje-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes viaje-seed-drift {
+    from { background-position: 0 0; }
+    to { background-position: 240px 240px; }
+  }
+
+  /* ---- Sección pineada: ocupa el viewport completo. Ya no hay color por
+     etapa — un único fondo oscuro fijo, propio del tema cacao. ---- */
+  .viaje__pin {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    width: 100%;
+    overflow: hidden; /* Cambiado a blanco */
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---- Textura única de granos de cacao (semillas): fondo constante de
+     toda la sección pineada. No se anima entre etapas —ya no hace falta,
+     porque ya no hay color que reemplazar—, solo un drift lentísimo para
+     darle un poco de vida sin distraer. ---- */
+  .viaje__seed-texture {
+    position: absolute;
+    inset: -10%;
+    z-index: 0;
+    opacity: 0.16;
+    background-repeat: repeat; /* Cambiado a negro para el fondo blanco */
+    background-repeat: repeat; /* Cambiado a dorado para el fondo blanco */
+    background-size: 120px 120px;
+    animation: viaje-seed-drift 40s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .viaje__seed-texture { animation: none; }
+  }
+
+  .viaje__progress {
+    position: absolute;
+    right: clamp(1rem, 3vw, 2.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    z-index: 5;
+  }
+  .viaje__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+    transition: background 0.35s ease, transform 0.35s ease;
+  }
+  .viaje__dot.is-active {
+    background: var(--ink);
+    transform: scale(1.4);
+  }
+
+  /* ---- Cada etapa: panel absoluto superpuesto, solo una visible a la vez ---- */
+  .viaje__panel {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 5vw, 3rem);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .viaje__panel[data-panel="0"] { opacity: 1; pointer-events: auto; }
+
+  /* ---- Zigzag: en etapas impares (2ª, 4ª, 6ª, 8ª → índices 1,3,5,7) se
+     invierten columnas y orden, así la foto y el texto "cambian de lado"
+     etapa tras etapa a medida que se cruza el fade de una con la otra. ---- */
+  .viaje__panel:nth-of-type(even) {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+  .viaje__panel:nth-of-type(even) .viaje__media { order: 2; }
+  .viaje__panel:nth-of-type(even) .viaje__text { order: 1; }
+
+  .viaje__media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45);
+  }
+  .viaje__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.15);
+  }
+  .viaje__placeholder-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+
+  .viaje__text { color: var(--ink); }
+  .viaje__number {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(0, 0, 0, 0.85);
+    margin: 0 0 0.9rem;
+  }
+  .viaje__number span { color: rgba(0, 0, 0, 0.45); font-weight: 500; }
+  .viaje__step-title {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 800;
+    margin: 0 0 0.9rem;
+    max-width: 18ch;
+  }
+  .viaje__step-text {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: rgba(0, 0, 0, 0.85);
+    margin: 0 0 1.25rem;
+    max-width: 40ch;
+  }
+  .viaje__badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--ink);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(4px);
+  }
+
+  /* ---- Layout para tabletas y pantallas medianas ---- */
+  @media (max-width: 1024px) {
+    .viaje__panel {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 2rem;
+      padding-top: 5rem;
+      padding-bottom: 2rem;
+      text-align: center;
+    }
+    /* Se desactiva el zigzag: la foto siempre va arriba. */
+    .viaje__panel:nth-of-type(even) .viaje__media { order: 0; }
+    .viaje__panel:nth-of-type(even) .viaje__text { order: 0; }
+    .viaje__text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .viaje__step-title, .viaje__step-text { max-width: 50ch; }
+    .viaje__step-title { font-size: clamp(1.4rem, 4vw, 1.7rem); }
+  }
+
+  /* ---- Layout para móviles ---- */
+  @media (max-width: 767px) {
+    .viaje__panel {
+      gap: 1.25rem;
+      padding-top: 4.5rem;
+    }
+    .viaje__media { aspect-ratio: 16 / 10; }
+    .viaje__step-title, .viaje__step-text { max-width: none; }
+    .viaje__progress { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viaje__scrollcue { animation: none; }
+  }
+</style>
+
+<script>
+  // GSAP + ScrollTrigger se cargan dinámicamente desde CDN antes de inicializar.
+  declare global {
+    interface Window {
+      gsap: any;
+      ScrollTrigger: any;
+    }
+  }
+
+  function initViaje() {
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    if (!gsap || !ScrollTrigger) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const pin = document.querySelector<HTMLElement>("[data-pin]");
+    const scrollcue = document.querySelector<HTMLElement>("[data-scrollcue]");
+    if (!pin) return;
+
+    const panels = Array.from(pin.querySelectorAll<HTMLElement>("[data-panel]"));
+    const dots = Array.from(pin.querySelectorAll<HTMLElement>("[data-dot]"));
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const n = panels.length;
+    if (n < 2) return;
+
+    // Estado inicial: solo el panel 0 visible, imagen sin zoom, texto en su sitio.
+    // El lado de la foto/texto (zigzag) ya está resuelto por CSS
+    // (:nth-of-type(even)), así que aquí solo animamos opacidad/escala/y.
+    panels.forEach((panel, i) => {
+      const media = panel.querySelector<HTMLElement>("[data-media] img");
+      const text = panel.querySelector<HTMLElement>("[data-text]");
+      gsap.set(panel, { opacity: i === 0 ? 1 : 0, pointerEvents: i === 0 ? "auto" : "none" });
+      if (media) gsap.set(media, { scale: i === 0 ? 1 : 1.18 });
+      if (text) gsap.set(text, { y: i === 0 ? 0 : 40 });
+    });
+    if (dots[0]) dots[0].classList.add("is-active");
+
+    const dur = reduceMotion ? 0.4 : 1;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: pin,
+        start: "top top",
+        end: () => "+=" + (n - 1) * (reduceMotion ? window.innerHeight * 0.6 : window.innerHeight),
+        scrub: 0.6,
+        pin: true,
+        anticipatePin: 1,
+        snap: {
+          snapTo: 1 / (n - 1),
+          duration: 0.4,
+          ease: "power1.inOut",
+        },
+        onUpdate: (self: any) => {
+          const idx = Math.round(self.progress * (n - 1));
+          dots.forEach((d, di) => d.classList.toggle("is-active", di === idx));
+        },
+        onEnter: () => scrollcue && gsap.to(scrollcue, { opacity: 0, duration: 0.3 }),
+        onLeaveBack: () => scrollcue && gsap.to(scrollcue, { opacity: 1, duration: 0.3 }),
+      },
+    });
+
+    // Una transición por cada par de etapas consecutivas: la anterior se
+    // desvanece/encoge mientras la siguiente aparece/hace zoom-out. Como
+    // los lados de foto/texto ya vienen invertidos por CSS en las etapas
+    // pares, este mismo crossfade de opacidad es lo que produce el efecto
+    // de "intercambio de posición" al pasar de una etapa a la otra — sin
+    // necesidad de animar ninguna posición X aparte. Todo en el mismo
+    // "slot" de tiempo (i), por eso con scrub el efecto es perfectamente
+    // reversible.
+    for (let i = 0; i < n - 1; i++) {
+      const current = panels[i];
+      const next = panels[i + 1];
+      const currentImg = current.querySelector<HTMLElement>("[data-media] img");
+      const nextImg = next.querySelector<HTMLElement>("[data-media] img");
+      const currentText = current.querySelector<HTMLElement>("[data-text]");
+      const nextText = next.querySelector<HTMLElement>("[data-text]");
+
+      tl.to(current, { opacity: 0, pointerEvents: "none", duration: dur, ease: "power1.inOut" }, i);
+      if (currentImg) tl.to(currentImg, { scale: 0.9, duration: dur, ease: "power1.inOut" }, i);
+      if (currentText) tl.to(currentText, { y: -40, duration: dur, ease: "power1.inOut" }, i);
+
+      tl.fromTo(
+        next,
+        { opacity: 0, pointerEvents: "none" },
+        { opacity: 1, pointerEvents: "auto", duration: dur, ease: "power1.inOut" },
+        i
+      );
+      if (nextImg) tl.fromTo(nextImg, { scale: 1.18 }, { scale: 1, duration: dur, ease: "power1.inOut" }, i);
+      if (nextText) tl.fromTo(nextText, { y: 40 }, { y: 0, duration: dur, ease: "power1.inOut" }, i);
+    }
+  }
+
+  function loadScript(src: string) {
+    return new Promise<void>((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        resolve();
+        return;
+      }
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("No se pudo cargar " + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function boot() {
+    try {
+      if (!window.gsap) {
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js");
+      }
+      if (!window.ScrollTrigger) {
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js");
+      }
+      initViaje();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+</script>
