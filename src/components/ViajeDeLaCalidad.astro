@@ -67,112 +67,35 @@ const stages: Stage[] = [
 ];
 ---
 
-<section class="viaje" id="viaje-de-la-calidad" aria-label="El Viaje de la Calidad — trazabilidad del cacao">
-  <header class="viaje__header">
-    <h2 class="viaje__title">El Viaje de la <span>Calidad</span></h2>
-    <p class="viaje__subtitle">
+<section class="viaje" id="viaje-de-la-calidad">
+  <header class="viaje-header">
+    <h2 class="viaje-title">El Viaje de la <span>Calidad</span></h2>
+    <p class="viaje-subtitle">
       Un recorrido riguroso diseñado para preservar la pureza de origen en cada eslabón de la cadena.
     </p>
   </header>
 
-  <div class="viaje__timeline">
-    {/* ── SVG: sendero de tierra con piedras y vegetación ── */}
-    <svg class="viaje__svg" viewBox="0 0 900 2600" preserveAspectRatio="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="soilGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#b8956a" />
-          <stop offset="50%" stop-color="#c4a77d" />
-          <stop offset="100%" stop-color="#a0825a" />
-        </linearGradient>
-      </defs>
-
-      {/* Guijarros a los lados del camino */}
-      <circle class="viaje__pebble" cx="380" cy="120"  r="4"   />
-      <circle class="viaje__pebble" cx="520" cy="200"  r="3"   />
-      <circle class="viaje__pebble" cx="350" cy="350"  r="5"   />
-      <circle class="viaje__pebble" cx="560" cy="420"  r="3.5" />
-      <circle class="viaje__pebble" cx="330" cy="580"  r="4"   />
-      <circle class="viaje__pebble" cx="580" cy="650"  r="3"   />
-      <circle class="viaje__pebble" cx="360" cy="800"  r="5"   />
-      <circle class="viaje__pebble" cx="540" cy="880"  r="4"   />
-      <circle class="viaje__pebble" cx="340" cy="1050" r="3"   />
-      <circle class="viaje__pebble" cx="570" cy="1120" r="4.5" />
-      <circle class="viaje__pebble" cx="350" cy="1280" r="4"   />
-      <circle class="viaje__pebble" cx="550" cy="1350" r="3"   />
-      <circle class="viaje__pebble" cx="370" cy="1500" r="5"   />
-      <circle class="viaje__pebble" cx="530" cy="1580" r="4"   />
-      <circle class="viaje__pebble" cx="360" cy="1720" r="3.5" />
-      <circle class="viaje__pebble" cx="560" cy="1800" r="4"   />
-      <circle class="viaje__pebble" cx="380" cy="1950" r="3"   />
-      <circle class="viaje__pebble" cx="520" cy="2020" r="4.5" />
-      <circle class="viaje__pebble" cx="420" cy="2150" r="3"   />
-      <circle class="viaje__pebble" cx="480" cy="2220" r="4"   />
-
-      {/* Hierba/vegetación a los lados */}
-      <path class="viaje__grass" d="M 340,100  Q 335,85  330,90"  />
-      <path class="viaje__grass" d="M 560,180  Q 565,165 570,170" />
-      <path class="viaje__grass" d="M 320,330  Q 315,315 310,320" />
-      <path class="viaje__grass" d="M 580,400  Q 585,385 590,390" />
-      <path class="viaje__grass" d="M 310,560  Q 305,545 300,550" />
-      <path class="viaje__grass" d="M 590,630  Q 595,615 600,620" />
-      <path class="viaje__grass" d="M 330,780  Q 325,765 320,770" />
-      <path class="viaje__grass" d="M 570,860  Q 575,845 580,850" />
-      <path class="viaje__grass" d="M 320,1030 Q 315,1015 310,1020" />
-      <path class="viaje__grass" d="M 580,1100 Q 585,1085 590,1090" />
-      <path class="viaje__grass" d="M 330,1260 Q 325,1245 320,1250" />
-      <path class="viaje__grass" d="M 570,1330 Q 575,1315 580,1320" />
-      <path class="viaje__grass" d="M 340,1480 Q 335,1465 330,1470" />
-      <path class="viaje__grass" d="M 560,1560 Q 565,1545 570,1550" />
-      <path class="viaje__grass" d="M 330,1700 Q 325,1685 320,1690" />
-      <path class="viaje__grass" d="M 570,1780 Q 575,1765 580,1770" />
-      <path class="viaje__grass" d="M 350,1930 Q 345,1915 340,1920" />
-      <path class="viaje__grass" d="M 550,2000 Q 555,1985 560,1990" />
-
-      {/* Sendero base: tierra con losas irregulares (siempre visible) */}
-      <path
-        class="viaje__path-border"
-        d="M 450,30  C 450,90  220,130  220,200  C 220,270  680,310  680,380  C 680,450  180,490  180,560  C 180,630  720,670  720,740  C 720,810  200,850  200,920  C 200,990  680,1030 680,1100 C 680,1170 220,1210 220,1280 C 220,1350 700,1390 700,1460 C 700,1530 200,1570 200,1640 C 200,1710 650,1750 650,1820 C 650,1890 250,1930 250,2000 C 250,2070 600,2110 600,2180 C 600,2250 450,2290 450,2350 C 450,2380 450,2390 450,2395"
-      />
-      <path
-        class="viaje__path-soil"
-        d="M 450,30  C 450,90  220,130  220,200  C 220,270  680,310  680,380  C 680,450  180,490  180,560  C 180,630  720,670  720,740  C 720,810  200,850  200,920  C 200,990  680,1030 680,1100 C 680,1170 220,1210 220,1280 C 220,1350 700,1390 700,1460 C 700,1530 200,1570 200,1640 C 200,1710 650,1750 650,1820 C 650,1890 250,1930 250,2000 C 250,2070 600,2110 600,2180 C 600,2250 450,2290 450,2350 C 450,2380 450,2390 450,2395"
-      />
-
-      {/* Sendero activo que se construye al scroll */}
-      <path
-        class="viaje__path-active"
-        d="M 450,30  C 450,90  220,130  220,200  C 220,270  680,310  680,380  C 680,450  180,490  180,560  C 180,630  720,670  720,740  C 720,810  200,850  200,920  C 200,990  680,1030 680,1100 C 680,1170 220,1210 220,1280 C 220,1350 700,1390 700,1460 C 700,1530 200,1570 200,1640 C 200,1710 650,1750 650,1820 C 650,1890 250,1930 250,2000 C 250,2070 600,2110 600,2180 C 600,2250 450,2290 450,2350 C 450,2380 450,2390 450,2395"
-      />
-    </svg>
-
-    {/* Etapas */}
+  <div class="viaje-timeline">
     {stages.map((stage, i) => (
-      <article class="viaje__stage" data-stage={i}>
-        {/* Poste de madera debajo del nodo */}
-        <div class="viaje__post" aria-hidden="true"></div>
-
-        {/* Señal en el camino */}
-        <div class="viaje__node" aria-hidden="true">
-          <span class="viaje__node-number">{stage.number}</span>
+      <article class="viaje-stage">
+        <div class="viaje-node">
+          <span>{stage.number}</span>
         </div>
 
-        {/* Tarjeta de contenido */}
-        <div class="viaje__content">
-          <span class="viaje__watermark" aria-hidden="true">{stage.number}</span>
-          <p class="viaje__step-label">Paso {stage.number} <span>/ 08</span></p>
-          <h3 class="viaje__step-title">{stage.title}</h3>
-          <p class="viaje__step-text">{stage.text}</p>
+        <div class="viaje-content">
+          <p class="viaje-step-label">Paso {stage.number} <span>/ 08</span></p>
+          <h3 class="viaje-step-title">{stage.title}</h3>
+          <p class="viaje-step-text">{stage.text}</p>
         </div>
 
-        {/* Imagen */}
-        <div class="viaje__media">
+        <div class="viaje-media">
           <img
             src={stage.image}
             alt={stage.alt}
             loading={i === 0 ? "eager" : "lazy"}
-            onerror="this.style.display='none'"
+            onerror="this.parentElement.style.background='linear-gradient(135deg, #e8e0d4, #c4a77d)'; this.style.display='none'; this.nextElementSibling.style.display='flex';"
           />
-          <span class="viaje__media-overlay">{stage.image.split("/").pop()}</span>
+          <span class="viaje-fallback-text">{stage.image.split("/").pop()}</span>
         </div>
       </article>
     ))}
@@ -181,70 +104,32 @@ const stages: Stage[] = [
 
 <style>
   .viaje {
-    --soil-dark:  #8b6914;
-    --soil-mid:   #a0825a;
-    --soil-light: #c4a77d;
-    --soil-pale:  #e8e0d4;
-    --paper: #fafaf7;
-    --ink: #1c1c1a;
-    background: var(--paper);
-    color: var(--ink);
+    background: #fafaf7;
+    color: #1c1c1a;
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     padding-bottom: 6rem;
-    position: relative;
-    overflow-x: hidden;
   }
 
-  /* Fondo orgánico sutil */
-  .viaje::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(circle at 10% 15%,  rgba(139,105,20,0.02) 0%, transparent 45%),
-      radial-gradient(circle at 90% 55%,  rgba(30,86,49,0.015) 0%, transparent 45%),
-      radial-gradient(circle at 50% 88%,  rgba(139,105,20,0.02) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ============================================================
-     HEADER
-     ============================================================ */
-  .viaje__header {
-    position: relative;
+  .viaje-header {
     max-width: 640px;
     margin: 0 auto;
-    padding: clamp(4rem, 12vw, 7rem) 1.5rem clamp(3rem, 8vw, 4rem);
+    padding: 5rem 1.5rem 3rem;
     text-align: center;
-    z-index: 1;
   }
 
-  .viaje__header::after {
-    content: '';
-    display: block;
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--soil-dark), transparent);
-    margin: 1.75rem auto 0;
-    border-radius: 2px;
-    opacity: 0.45;
-  }
-
-  .viaje__title {
+  .viaje-title {
     font-size: clamp(2.2rem, 5.5vw, 3.2rem);
     font-weight: 800;
     margin: 0 0 1rem;
     letter-spacing: -0.03em;
-    line-height: 1.05;
   }
 
-  .viaje__title span {
+  .viaje-title span {
     color: #1e5631;
     position: relative;
   }
 
-  .viaje__title span::after {
+  .viaje-title span::after {
     content: '';
     position: absolute;
     bottom: 2px;
@@ -256,7 +141,7 @@ const stages: Stage[] = [
     z-index: -1;
   }
 
-  .viaje__subtitle {
+  .viaje-subtitle {
     font-size: 1.15rem;
     line-height: 1.7;
     color: #6b6b65;
@@ -265,148 +150,59 @@ const stages: Stage[] = [
   }
 
   /* ============================================================
-     TIMELINE CON SENDERO DE TIERRA
+     TIMELINE VERTICAL CON LÍNEA CENTRAL
      ============================================================ */
-  .viaje__timeline {
+  .viaje-timeline {
     position: relative;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem 0 4rem;
-    z-index: 1;
+    padding: 2rem 0;
   }
 
-  /* ---- SVG del sendero ── */
-  .viaje__svg {
+  /* Línea vertical central segmentada */
+  .viaje-timeline::before {
+    content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(
+      to bottom,
+      #c4a77d 0px,
+      #c4a77d 12px,
+      transparent 12px,
+      transparent 24px
+    );
     z-index: 0;
-    overflow: visible;
-  }
-
-  /* Sendero base: losas de tierra irregulares */
-  .viaje__path-border {
-    fill: none;
-    stroke: var(--soil-mid);
-    stroke-width: 16;
-    stroke-linecap: round;
-    stroke-dasharray: 30 12 22 8 28 14 18 10 32 16;
-    opacity: 0.22;
-  }
-
-  .viaje__path-soil {
-    fill: none;
-    stroke: var(--soil-light);
-    stroke-width: 12;
-    stroke-linecap: round;
-    stroke-dasharray: 30 12 22 8 28 14 18 10 32 16;
-    opacity: 0.32;
-  }
-
-  /* Sendero activo que se construye al scroll */
-  .viaje__path-active {
-    fill: none;
-    stroke: url(#soilGradient);
-    stroke-width: 10;
-    stroke-linecap: round;
-    stroke-dasharray: 3200;
-    stroke-dashoffset: 3200;
-    animation: drawPath linear;
-    animation-timeline: scroll(root block);
-    animation-range: 0% 100%;
-    filter: drop-shadow(0 2px 3px rgba(139,90,43,0.2));
-  }
-
-  @keyframes drawPath {
-    to { stroke-dashoffset: 0; }
-  }
-
-  /* Piedras/guijarros que aparecen a los lados */
-  .viaje__pebble {
-    fill: var(--soil-mid);
-    opacity: 0;
-    animation: pebblePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-timeline: view();
-    animation-range: entry 15% cover 30%;
-  }
-
-  @keyframes pebblePop {
-    0%   { opacity: 0; transform: scale(0); }
-    60%  { opacity: 0.6; transform: scale(1.4); }
-    100% { opacity: 0.45; transform: scale(1); }
-  }
-
-  /* Hierba que crece a los lados */
-  .viaje__grass {
-    fill: none;
-    stroke: #1e5631;
-    stroke-width: 2;
-    stroke-linecap: round;
-    opacity: 0;
-    animation: grassGrow 0.9s ease-out forwards;
-    animation-timeline: view();
-    animation-range: entry 10% cover 35%;
-  }
-
-  @keyframes grassGrow {
-    0%   { opacity: 0; stroke-dasharray: 0 24; }
-    100% { opacity: 0.3; stroke-dasharray: 24 0; }
   }
 
   /* ============================================================
      ETAPAS
      ============================================================ */
-  .viaje__stage {
+  .viaje-stage {
     position: relative;
     display: flex;
     align-items: center;
-    margin-bottom: 6rem;
-    min-height: 300px;
-    opacity: 0;
-    transform: translateY(80px);
-    animation: stageReveal 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    animation-timeline: view();
-    animation-range: entry 0% cover 35%;
+    margin-bottom: 5rem;
+    min-height: 280px;
   }
 
-  .viaje__stage:nth-child(odd)  { flex-direction: row; }
-  .viaje__stage:nth-child(even) { flex-direction: row-reverse; }
+  .viaje-stage:nth-child(odd)  { flex-direction: row; }
+  .viaje-stage:nth-child(even) { flex-direction: row-reverse; }
 
-  @keyframes stageReveal {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* ---- Poste de madera ---- */
-  .viaje__post {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -30%);
-    width: 5px;
-    height: 50px;
-    background: linear-gradient(to bottom, var(--soil-mid), var(--soil-dark));
-    border-radius: 3px;
-    z-index: 4;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  }
-
-  /* ---- Señal en el camino ---- */
-  .viaje__node {
+  /* ---- Nodo circular ---- */
+  .viaje-node {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: linear-gradient(145deg, #ffffff, var(--soil-pale));
-    border: 3px solid var(--soil-dark);
+    background: linear-gradient(145deg, #ffffff, #e8e0d4);
+    border: 3px solid #8b6914;
     z-index: 5;
     display: flex;
     align-items: center;
@@ -415,81 +211,41 @@ const stages: Stage[] = [
       0 0 0 10px rgba(250,250,247,0.9),
       0 8px 28px rgba(139,105,20,0.2),
       inset 0 2px 4px rgba(255,255,255,0.6);
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .viaje__stage:hover .viaje__node {
-    transform: translate(-50%, -50%) scale(1.22);
-    box-shadow:
-      0 0 0 12px rgba(250,250,247,0.95),
-      0 16px 48px rgba(139,105,20,0.3),
-      inset 0 2px 4px rgba(255,255,255,0.6);
-    border-color: var(--soil-mid);
-  }
-
-  .viaje__node-number {
     font-size: 0.85rem;
     font-weight: 800;
     color: #6b4e2e;
-    letter-spacing: 0.02em;
   }
 
   /* ---- Tarjeta de contenido ---- */
-  .viaje__content {
-    position: relative;
+  .viaje-content {
     width: 38%;
-    padding: 2.25rem 2.5rem;
-    background: linear-gradient(145deg, #ffffff 0%, #fafaf7 100%);
-    border: 1px solid rgba(0,0,0,0.035);
-    border-radius: 22px;
+    padding: 2rem 2.25rem;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 20px;
     box-shadow:
-      0 2px 8px rgba(0,0,0,0.02),
-      0 12px 36px rgba(0,0,0,0.04),
-      0 32px 64px rgba(0,0,0,0.03);
-    overflow: hidden;
-    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      0 2px 8px rgba(0,0,0,0.04),
+      0 12px 36px rgba(0,0,0,0.06);
+    position: relative;
     z-index: 2;
   }
 
-  .viaje__stage:hover .viaje__content {
-    transform: translateY(-8px);
-    box-shadow:
-      0 4px 12px rgba(0,0,0,0.03),
-      0 18px 52px rgba(0,0,0,0.07),
-      0 44px 88px rgba(0,0,0,0.04);
-  }
-
-  .viaje__content::before {
+  .viaje-content::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--soil-dark), var(--soil-light), var(--soil-dark));
-    border-radius: 22px 22px 0 0;
-    opacity: 0.7;
+    background: linear-gradient(90deg, #8b6914, #c4a77d, #8b6914);
+    border-radius: 20px 20px 0 0;
+    opacity: 0.6;
   }
 
-  .viaje__watermark {
-    position: absolute;
-    top: -10px;
-    font-size: 6rem;
-    font-weight: 900;
-    color: rgba(139,105,20,0.035);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: -0.04em;
-  }
-
-  .viaje__stage:nth-child(odd) .viaje__watermark  { right: 1.5rem; }
-  .viaje__stage:nth-child(even) .viaje__watermark { left:  1.5rem; }
-
-  .viaje__step-label {
+  .viaje-step-label {
     font-size: 0.72rem;
     font-weight: 700;
-    color: var(--soil-dark);
+    color: #8b6914;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     margin: 0 0 0.75rem;
@@ -498,32 +254,31 @@ const stages: Stage[] = [
     gap: 0.6rem;
   }
 
-  .viaje__step-label::before {
+  .viaje-step-label::before {
     content: '';
     width: 22px;
     height: 2px;
-    background: var(--soil-dark);
+    background: #8b6914;
     opacity: 0.35;
     border-radius: 1px;
   }
 
-  .viaje__stage:nth-child(odd) .viaje__step-label { flex-direction: row-reverse; }
+  .viaje-stage:nth-child(odd) .viaje-step-label { flex-direction: row-reverse; }
 
-  .viaje__step-label span {
-    color: rgba(0,0,0,0.22);
+  .viaje-step-label span {
+    color: rgba(0,0,0,0.25);
     font-weight: 500;
   }
 
-  .viaje__step-title {
+  .viaje-step-title {
     font-size: clamp(1.25rem, 2.4vw, 1.55rem);
     font-weight: 700;
     margin: 0 0 0.9rem;
-    color: var(--ink);
+    color: #1c1c1a;
     line-height: 1.25;
-    letter-spacing: -0.01em;
   }
 
-  .viaje__step-text {
+  .viaje-step-text {
     font-size: 0.96rem;
     line-height: 1.8;
     color: #5a5a54;
@@ -531,188 +286,89 @@ const stages: Stage[] = [
   }
 
   /* ---- Imagen ---- */
-  .viaje__media {
-    position: relative;
+  .viaje-media {
     width: 38%;
     aspect-ratio: 4 / 3;
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
+    background: linear-gradient(135deg, #e8e0d4, #d4c4a8);
     box-shadow:
       0 6px 20px rgba(0,0,0,0.08),
-      0 24px 60px rgba(0,0,0,0.13);
-    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      0 24px 60px rgba(0,0,0,0.12);
+    position: relative;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .viaje__stage:hover .viaje__media {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow:
-      0 10px 28px rgba(0,0,0,0.1),
-      0 36px 80px rgba(0,0,0,0.18);
-  }
-
-  .viaje__media img {
+  .viaje-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .viaje__stage:hover .viaje__media img {
-    transform: scale(1.12);
-  }
-
-  .viaje__media::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(28,28,26,0.6) 0%,
-      rgba(28,28,26,0.12) 40%,
-      transparent 70%
-    );
-    pointer-events: none;
-  }
-
-  .viaje__media-overlay {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 1.5rem;
-    right: 1.5rem;
+  .viaje-fallback-text {
+    display: none;
     font-size: 0.8rem;
-    font-weight: 500;
-    color: rgba(255,255,255,0.9);
-    z-index: 2;
+    font-weight: 600;
+    color: #8b6914;
     text-align: center;
-    letter-spacing: 0.02em;
+    padding: 1rem;
   }
 
-  .viaje__stage:nth-child(odd) .viaje__media  { margin-left: auto; margin-right: 0; }
-  .viaje__stage:nth-child(even) .viaje__media { margin-right: auto; margin-left: 0; }
+  .viaje-stage:nth-child(odd) .viaje-media  { margin-left: auto; margin-right: 0; }
+  .viaje-stage:nth-child(even) .viaje-media { margin-right: auto; margin-left: 0; }
 
   /* ============================================================
-     RESPONSIVE — TABLETA
+     RESPONSIVE
      ============================================================ */
   @media (max-width: 1024px) {
-    .viaje__stage,
-    .viaje__stage:nth-child(odd),
-    .viaje__stage:nth-child(even) {
+    .viaje-timeline::before { display: none; }
+
+    .viaje-stage,
+    .viaje-stage:nth-child(odd),
+    .viaje-stage:nth-child(even) {
       flex-direction: column;
-      gap: 2rem;
-      margin-bottom: 5rem;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
       min-height: auto;
     }
 
-    .viaje__content,
-    .viaje__stage:nth-child(odd) .viaje__content,
-    .viaje__stage:nth-child(even) .viaje__content {
+    .viaje-content {
       width: 85%;
       max-width: 540px;
       text-align: center;
       margin: 0 auto;
-      padding: 2rem;
     }
 
-    .viaje__watermark {
-      font-size: 4.5rem;
-      top: -6px;
-      left: 1rem !important;
-      right: auto !important;
-    }
+    .viaje-step-label { justify-content: center; }
 
-    .viaje__step-label { justify-content: center; }
-
-    .viaje__media {
+    .viaje-media {
       width: 85%;
       max-width: 540px;
       margin: 0 auto !important;
     }
 
-    .viaje__node {
+    .viaje-node {
       position: relative;
       left: auto;
       top: auto;
       transform: none;
       margin: 0 auto;
     }
-    .viaje__stage:hover .viaje__node {
-      transform: scale(1.2);
-    }
-
-    .viaje__post { display: none; }
-    .viaje__svg  { display: none; }
   }
 
-  /* ============================================================
-     RESPONSIVE — MÓVIL
-     ============================================================ */
   @media (max-width: 640px) {
-    .viaje__header { padding-top: 3rem; }
-    .viaje__title  { font-size: 1.9rem; }
-
-    .viaje__stage {
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
-
-    .viaje__content,
-    .viaje__stage:nth-child(odd) .viaje__content,
-    .viaje__stage:nth-child(even) .viaje__content {
+    .viaje-content,
+    .viaje-media {
       width: 100%;
-      padding: 1.75rem;
     }
 
-    .viaje__watermark { font-size: 3.5rem; }
-
-    .viaje__media {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-    }
-
-    .viaje__node {
+    .viaje-node {
       width: 52px;
       height: 52px;
     }
-    .viaje__node-number { font-size: 0.8rem; }
-  }
-
-  /* ============================================================
-     REDUCED MOTION & FALLBACK
-     ============================================================ */
-  @media (prefers-reduced-motion: reduce) {
-    .viaje__stage {
-      opacity: 1;
-      transform: none;
-      animation: none;
-    }
-    .viaje__path-active {
-      stroke-dashoffset: 0;
-      animation: none;
-    }
-    .viaje__pebble,
-    .viaje__grass {
-      opacity: 0.4;
-      animation: none;
-    }
-    .viaje__media img,
-    .viaje__content,
-    .viaje__media,
-    .viaje__node {
-      transition: none;
-    }
-  }
-
-  @supports not (animation-timeline: view()) {
-    .viaje__stage {
-      opacity: 1;
-      transform: none;
-    }
-    .viaje__path-active {
-      stroke-dashoffset: 0;
-    }
-    .viaje__pebble { opacity: 0.4; }
-    .viaje__grass  { opacity: 0.3; }
   }
 </style>
