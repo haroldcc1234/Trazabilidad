@@ -1,9 +1,8 @@
-
+---
 interface Stage {
   number: string;
   title: string;
   text: string;
-  badge: string;
   image: string;
   alt: string;
 }
@@ -101,7 +100,6 @@ const stages: Stage[] = [
           <p class="viaje__number">{stage.number} <span>/ 08</span></p>
           <h3 class="viaje__step-title">{stage.title}</h3>
           <p class="viaje__step-text">{stage.text}</p>
-          <span class="viaje__badge">{stage.badge}</span>
         </div>
       </article>
     ))}
