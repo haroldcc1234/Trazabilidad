@@ -1,33 +1,3 @@
----
-// ViajeDeLaCalidad.astro
-// Scrollytelling "pineado" con GSAP + ScrollTrigger: la sección queda fija
-// en pantalla mientras el usuario scrollea, y cada etapa se revela una a la
-// vez (nunca las 8 juntas). Bajar = avanza, subir = retrocede — la
-// animación es 100% reversible porque está atada al progreso real del
-// scroll (scrub), no a un trigger de una sola vez.
-//
-// Efectos por etapa:
-//   - Fondo FIJO: no hay más color por etapa. Solo una textura de granos
-//     de cacao (semillas) en opacidad baja, constante durante todo el
-//     scroll — no hace crossfade porque ya no cambia entre etapas.
-//   - Layout en ZIGZAG: en etapas pares la foto va a la izquierda y el
-//     texto a la derecha; en etapas impares se invierte. Como cada panel
-//     ya trae su propio orden fijo por CSS, el intercambio de lados
-//     ocurre solo al pasar de una etapa a la siguiente (crossfade de
-//     opacidad), sin necesidad de animar ninguna posición aparte.
-//   - La fotografía hace zoom + fade al entrar/salir.
-//   - El texto hace fade + slide vertical al entrar/salir.
-//   - Indicador de progreso (puntos) + contador "0X / 08".
-//
-// IMPORTANTE: coloca las 8 fotografías reales en /public/images/viaje/
-// con los nombres de archivo indicados en el array `stages` (campo `image`).
-// Si un archivo aún no existe, se muestra un rótulo de marcador de posición
-// para que sepas exactamente qué falta subir.
-//
-// Uso:
-//   import ViajeDeLaCalidad from '../components/ViajeDeLaCalidad.astro';
-//   <ViajeDeLaCalidad />
-
 interface Stage {
   number: string;
   title: string;
@@ -42,7 +12,6 @@ const stages: Stage[] = [
     number: "01",
     title: "Origen y Selección de Semilla",
     text: "Evaluamos y seleccionamos variedades nativas de cacao de los Andes y la Amazonía, priorizando calidad genética y aptitud para el cultivo orgánico.",
-    badge: "Ficha de Selección de Semilla",
     image: "/images/viaje/01-seleccion-semilla.jpg",
     alt: "Agricultor examinando semillas de cacao seleccionadas",
   },
@@ -50,7 +19,6 @@ const stages: Stage[] = [
     number: "02",
     title: "Siembra",
     text: "La semilla seleccionada se siembra en microclimas específicos, trabajando mano a mano con agricultores capacitados en prácticas orgánicas.",
-    badge: "Registro de Productor (georreferenciado)",
     image: "/images/viaje/02-siembra.jpg",
     alt: "Agricultor sembrando cacao en almácigo",
   },
@@ -58,7 +26,6 @@ const stages: Stage[] = [
     number: "03",
     title: "Germinación y Primeros Brotes",
     text: "Monitoreamos las condiciones climáticas —sol, lluvia y temperatura— que acompañan la germinación, hasta la aparición de los primeros brotes.",
-    badge: "Bitácora de Monitoreo Climático",
     image: "/images/viaje/03-germinacion.jpg",
     alt: "Brote de cacao emergiendo de la tierra",
   },
@@ -66,7 +33,6 @@ const stages: Stage[] = [
     number: "04",
     title: "Crecimiento y Desarrollo",
     text: "Durante el desarrollo de la planta aplicamos cuidados agronómicos —riego, control de plagas y nutrición del suelo— para un crecimiento saludable.",
-    badge: "Bitácora de Manejo Agronómico",
     image: "/images/viaje/04-crecimiento.jpg",
     alt: "Planta joven de cacao en desarrollo",
   },
@@ -74,7 +40,6 @@ const stages: Stage[] = [
     number: "05",
     title: "Maduración",
     text: "Verificamos que la mazorca haya alcanzado el punto óptimo de maduración —color y firmeza— antes de autorizar la cosecha.",
-    badge: "Ficha de Punto de Cosecha",
     image: "/images/viaje/05-maduracion.jpg",
     alt: "Mazorcas de cacao maduras colgando del árbol",
   },
@@ -82,7 +47,6 @@ const stages: Stage[] = [
     number: "06",
     title: "Cosecha y Acopio",
     text: "La cosecha se realiza manualmente en el punto óptimo de maduración. Cada lote se etiqueta de inmediato en campo con un código único.",
-    badge: "Código de Lote en Campo",
     image: "/images/viaje/06-cosecha-acopio.jpg",
     alt: "Trabajador cosechando mazorcas de cacao",
   },
@@ -90,7 +54,6 @@ const stages: Stage[] = [
     number: "07",
     title: "Procesamiento y Calidad",
     text: "En planta certificada, el grano pasa por fermentación, secado y estrictos análisis físico-químicos y microbiológicos antes de ser liberado.",
-    badge: "Análisis HACCP",
     image: "/images/viaje/07-procesamiento-calidad.jpg",
     alt: "Técnico de laboratorio analizando granos de cacao",
   },
@@ -98,7 +61,6 @@ const stages: Stage[] = [
     number: "08",
     title: "Empaque y Exportación Segura",
     text: "El producto final se embala bajo estándares internacionales y se consolida para su exportación, con documentación completa de origen y calidad.",
-    badge: "Certificado de Exportación",
     image: "/images/viaje/08-empaque-exportacion.jpg",
     alt: "Sacos de cacao embalados listos para exportación",
   },
