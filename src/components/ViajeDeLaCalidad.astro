@@ -327,10 +327,16 @@ n    display: block;
   /* Piedras/guijarros que aparecen a los lados */
   .viaje__pebble {
     fill: var(--soil-mid);
-    opacity: 0;
-    animation: pebblePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-    animation-timeline: view();
-    animation-range: entry 15% cover 30%;
+    opacity: 0.45; /* Visibilidad por defecto */
+  }
+
+  @supports (animation-timeline: view()) {
+    .viaje__pebble {
+      opacity: 0;
+      animation: pebblePop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-timeline: view();
+      animation-range: entry 15% cover 30%;
+    }
   }
 
   @keyframes pebblePop {
@@ -338,17 +344,24 @@ n    display: block;
     60%  { opacity: 0.6; transform: scale(1.4); }
     100% { opacity: 0.45; transform: scale(1); }
   }
-
   /* Hierba que crece a los lados */
   .viaje__grass {
     fill: none;
     stroke: #1e5631;
     stroke-width: 2;
     stroke-linecap: round;
-    opacity: 0;
-    animation: grassGrow 0.9s ease-out forwards;
-    animation-timeline: view();
-    animation-range: entry 10% cover 35%;
+    opacity: 0.3; /* Visibilidad por defecto */
+    stroke-dasharray: 24 0; /* Dibujado por defecto */
+  }
+
+  @supports (animation-timeline: view()) {
+    .viaje__grass {
+      opacity: 0;
+      stroke-dasharray: 0 24;
+      animation: grassGrow 0.9s ease-out forwards;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
   }
 
   @keyframes grassGrow {
@@ -709,7 +722,7 @@ n    width: 22px;
     }
   }
 
-  @supports not (animation-timeline: view()) {
+  /* @supports not (animation-timeline: view()) {
     .viaje__stage {
       opacity: 1;
       transform: none;
@@ -719,5 +732,5 @@ n    width: 22px;
     }
     .viaje__pebble { opacity: 0.4; }
     .viaje__grass  { opacity: 0.3; }
-  }
+  } */
 </style>
